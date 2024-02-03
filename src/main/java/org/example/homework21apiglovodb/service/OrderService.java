@@ -1,6 +1,7 @@
 package org.example.homework21apiglovodb.service;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.example.homework21apiglovodb.converter.Converter;
 import org.example.homework21apiglovodb.dto.OrderDto;
 import org.example.homework21apiglovodb.entity.ItemEntity;
@@ -33,10 +34,7 @@ public class OrderService {
         return toDto.convert(entity);
     }
 
-    public OrderDto updateOrder(OrderDto dto) throws OrderNotFoundException {
-        if (dto == null) {
-            return null;
-        }
+    public OrderDto updateOrder(@NonNull OrderDto dto) throws OrderNotFoundException {
         orderRepository.findById(dto.getId())
                 .orElseThrow(OrderNotFoundException::new);
         OrderEntity updateEntity = orderRepository.save(toEntity.convert(dto));
@@ -50,9 +48,6 @@ public class OrderService {
     }
 
     public OrderDto addItemToOrder(Long orderId, Long itemId) throws OrderNotFoundException, ItemNotFoundException {
-        if (itemId == null) {
-            return null;
-        }
         OrderEntity foundOrder = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
@@ -64,12 +59,6 @@ public class OrderService {
     }
 
     public OrderDto deleteItemFromOrder(Long orderId, Long itemId) throws OrderNotFoundException, ItemNotFoundException {
-        if (orderId == null) {
-            return null;
-        }
-        if (itemId == null) {
-            return null;
-        }
         OrderEntity foundOrder = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
